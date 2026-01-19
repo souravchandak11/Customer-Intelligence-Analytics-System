@@ -1,13 +1,54 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { Upload } from 'lucide-react';
 import { KPICard } from '@/components/dashboard/KPICard';
 import { CustomerDemographics } from '@/components/dashboard/CustomerDemographics';
 import { SegmentationChart } from '@/components/dashboard/SegmentationChart';
 import { MetricCard } from '@/components/dashboard/MetricCard';
-import { kpiData, sessionMetrics } from '@/data/mockData';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useAnalyticsData } from '@/hooks/useAnalyticsData';
 
 const DashboardOverview = () => {
+  const { kpiData, sessionMetrics, isImported } = useAnalyticsData();
+
   return (
     <div className="space-y-6">
+      {/* Data Source Indicator */}
+      {!isImported && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Alert className="border-primary/30 bg-primary/5">
+            <Upload className="h-4 w-4" />
+            <AlertDescription className="flex items-center justify-between">
+              <span>
+                Viewing <Badge variant="secondary">Sample Data</Badge> — Import your own customer data to see real RFM insights
+              </span>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/import">Import Data</Link>
+              </Button>
+            </AlertDescription>
+          </Alert>
+        </motion.div>
+      )}
+
+      {isImported && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Alert className="border-success/30 bg-success/5">
+            <AlertDescription className="flex items-center gap-2">
+              <Badge variant="default" className="bg-success">Live Data</Badge>
+              <span>Dashboard is showing insights from your imported customer data</span>
+            </AlertDescription>
+          </Alert>
+        </motion.div>
+      )}
+
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {kpiData.map((kpi, index) => (
