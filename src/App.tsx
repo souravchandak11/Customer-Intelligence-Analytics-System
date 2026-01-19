@@ -8,6 +8,7 @@ import DashboardOverview from "@/pages/DashboardOverview";
 import Segments from "@/pages/Segments";
 import Customers from "@/pages/Customers";
 import Analytics from "@/pages/Analytics";
+import DataImport from "@/pages/DataImport";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/segments" element={<Segments />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/import" element={<DataImport />} />
             <Route path="/stats" element={<DashboardOverview />} />
             <Route path="/metrics" element={<Analytics />} />
             <Route path="/reports/rfm" element={<Segments />} />
