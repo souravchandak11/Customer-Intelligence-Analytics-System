@@ -13,17 +13,21 @@ import {
   TrendingUp,
   Target,
   Activity,
+  Upload,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
+import { useCustomerStore } from '@/stores/customerStore';
+import { Badge } from '@/components/ui/badge';
 
 interface NavItem {
   title: string;
   icon: React.ElementType;
   path?: string;
   badge?: number;
+  highlight?: boolean;
   children?: { title: string; path: string; badge?: number }[];
 }
 
@@ -36,6 +40,12 @@ const navItems: NavItem[] = [
       { title: 'Quick Stats', path: '/stats', badge: 5 },
       { title: 'Key Metrics', path: '/metrics' },
     ],
+  },
+  {
+    title: 'Import Data',
+    icon: Upload,
+    path: '/import',
+    highlight: true,
   },
   {
     title: 'Reports',
@@ -216,7 +226,8 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
                     'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all',
                     isActivePath(item.path!)
                       ? 'bg-sidebar-primary/20 text-sidebar-foreground'
-                      : 'text-sidebar-muted hover:bg-sidebar-primary/10 hover:text-sidebar-foreground'
+                      : 'text-sidebar-muted hover:bg-sidebar-primary/10 hover:text-sidebar-foreground',
+                    item.highlight && 'border border-sidebar-foreground/20'
                   )}
                 >
                   <item.icon className="w-5 h-5 flex-shrink-0" />
@@ -226,7 +237,7 @@ export function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="text-sm font-medium"
+                        className="flex-1 text-sm font-medium"
                       >
                         {item.title}
                       </motion.span>
